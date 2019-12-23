@@ -4,6 +4,7 @@
 import os
 import sys
 
+
 def ensure_interpreter():
     """Ensure we are running under the correct interpreter and environ."""
     abs_dir = os.path.dirname(os.path.abspath(__file__))
@@ -12,6 +13,7 @@ def ensure_interpreter():
     if os.path.abspath(sys.executable) == desired_interpreter:
         return
     env = dict(os.environ)
+
     def prefix_paths(key, prefix_paths):
         """Add prefix paths, relative to the project root."""
         new_paths = [os.path.join(project_root, p) for p in prefix_paths]
@@ -39,7 +41,7 @@ from datetime import date
 def __getConfSection__(config, section):
     try:
         return config[section]
-    except Exception as e:
+    except Exception:
         return None
 
 
@@ -61,8 +63,8 @@ def __prepfile__(filename):
         print(e)
 
 
-
 config_file = '/etc/forticert/forticert.conf'
+
 
 def caimport(
     fortiapi,
