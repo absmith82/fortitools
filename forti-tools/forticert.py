@@ -75,7 +75,7 @@ def caimport(
     verify=False,
     verbose=False
 ):
-    """Import a ca certificate to fortios."""
+    """Import a ca certificate to FortiOS."""
 #    Initialize variable needed for CA import.
     if cafile:
         cacert = __prepfile__(cafile)
@@ -125,7 +125,7 @@ def certimport(
     verify=False,
     verbose=False
 ):
-    """Import a public and private key certificate for fortios."""
+    """Import a public and private key certificate for FortiOS."""
 #    Initialize variable needed for CA import.
 
     path = 'vpn-certificate'
@@ -208,16 +208,6 @@ parser.add_argument(
         type=str
 )
 
-# removed since I have no way to test scep server
-'''
-parser.add_argument(
-        '-i',
-        '--import_method',
-        help='import method either file or scep',
-        type=str
-)
-'''
-
 parser.add_argument(
         '-C',
         '--cafile',
@@ -249,7 +239,9 @@ parser.add_argument(
 parser.add_argument(
         '-n',
         '--certname',
-        help='The name that the public key certificate should have on import. Required if uploading a certificate.',
+        help='''The name that the public key certificate should have on import.
+        Required if uploading a certificate.
+        It is recommended to use this with the --append_date flag''',
         type=str
 )
 
@@ -282,12 +274,6 @@ parser.add_argument(
 )
 
 parser.add_argument(
-        '--vdom',
-        help='set the vdom. root by default',
-        action='store_true'
-)
-
-parser.add_argument(
         '-V',
         '--verify',
         help='verify ssl. Set to False by default',
@@ -311,8 +297,7 @@ config.read(config_file)
 
 configDefaults = __getConfSection__(config, 'Defaults')
 
-if args.host:
-    host = args.host
+host = __getArg__(configDefaults, args.host, 'host')
 
 apitoken = __getArg__(configDefaults, args.apitoken, 'apitoken')
 
@@ -323,9 +308,7 @@ if username:
     if not password:
         password = getpass()
 
-# removed since I have no way to test scep server
-'''if args.import_method:
-    import_method = args.import_method'''
+import_method = 'file'
 
 cafile = __getArg__(configDefaults, args.cafile, 'cafile')
 
@@ -450,7 +433,7 @@ elif username:
 else:
     print("Please provide credentials")
 
-if cafile:
+if host and cafile:
     caimport(
         uploadcert,
         import_method=import_method,
@@ -460,7 +443,7 @@ if cafile:
         verbose=verbose
     )
 
-if certfile:
+if host and certfile:
     certimport(
         uploadcert,
         certname=certname,
@@ -473,3 +456,6 @@ if certfile:
         verify=verify,
         verbose=verbose
     )
+
+else:
+    print('Please provide a certificate file and hostname')
