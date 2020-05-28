@@ -1,34 +1,6 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 
 """Import a cert file to a Fortigate."""
-import os
-import sys
-
-
-def ensure_interpreter():
-    """Ensure we are running under the correct interpreter and environ."""
-    abs_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.normpath(os.path.join(abs_dir, '../'))
-    desired_interpreter = os.path.join(project_root, 'bin/python')
-    if os.path.abspath(sys.executable) == desired_interpreter:
-        return
-    env = dict(os.environ)
-
-    def prefix_paths(key, prefix_paths):
-        """Add prefix paths, relative to the project root."""
-        new_paths = [os.path.join(project_root, p) for p in prefix_paths]
-        new_paths.extend(env.get(key, '').split(':'))
-        env[key] = ':'.join(new_paths)
-    prefix_paths('PYTHONPATH', ['dir1', 'dir2'])
-    prefix_paths('LD_LIBRARY_PATH', ['lib'])
-    prefix_paths('PYTHON_EGG_CACHE', ['var/.python-eggs'])
-    env['PROJECT_ROOT'] = project_root
-    os.execvpe(desired_interpreter, [desired_interpreter] + sys.argv, env)
-
-
-ensure_interpreter()
-
-
 from fortiosapi import FortiOSAPI
 import argparse
 import configparser
