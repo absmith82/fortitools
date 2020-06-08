@@ -137,7 +137,7 @@ def changecert(
         name = 'settings'
         resource = 'servercert'
         data = {resource: certname}
-        response = fortiapi.put(path, name, vdom=vdom, data=data)
+        response = fortiapi.put(path, name,vdom=vdom, data=data)
         if verbose:
             print(
                 path,
@@ -334,7 +334,7 @@ adminui = __getArg__(configDefaults, args.adminui, 'adminui', arg_default=False)
 
 userauth = __getArg__(configDefaults, args.userauth, 'userauth', arg_default=False)
 
-vdom = __getArg__(configDefaults, args.vdom, 'vdom')
+vdom = __getArg__(configDefaults, args.vdom, 'vdom', arg_default='root')
 
 verify = __getArg__(configDefaults, args.verify, 'verify', arg_default=False)
 

@@ -259,6 +259,12 @@ parser.add_argument(
         action='store_true'
 )
 
+parser.add_argument(
+        '--vdom',
+        help='set the vdom. root by default',
+        type=str
+)
+
 args = parser.parse_args()
 
 if args.config:
@@ -297,6 +303,8 @@ keypassword = __getArg__(configDefaults, args.keypassword, 'keypassword')
 scope = __getArg__(configDefaults, args.scope, 'scope', arg_default='global')
 
 type = __getArg__(configDefaults, args.type, 'type', arg_default='regular')
+
+vdom = __getArg__(configDefaults, args.vdom, 'vdom', arg_default='root')
 
 verify = __getArg__(configDefaults, args.verify, 'verify', arg_default=False)
 
@@ -381,6 +389,13 @@ for section in config.sections():
             args.verify,
             'verify',
             arg_default=verify
+            )
+
+        vdom = __getArg__(
+            configDefaults,
+            args.vdom,
+            'vdom',
+            arg_default='root'
             )
 
 verbose = args.verbose

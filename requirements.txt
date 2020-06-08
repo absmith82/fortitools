@@ -4,7 +4,7 @@ certifi==2019.6.16
 cffi==1.12.3
 chardet==3.0.4
 cryptography==2.7
-fortiosapi==1.0.1
+fortiosapi==1.0.3
 idna==2.8
 oyaml==0.9
 paramiko==2.6.0
