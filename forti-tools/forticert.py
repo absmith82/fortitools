@@ -409,7 +409,7 @@ if verbose:
 # login to object via api token or username and password
 if apitoken:
     print('login via api')
-    uploadcert.tokenlogin(host, apitoken)
+    uploadcert.tokenlogin(host, apitoken, verify=verify)
 elif username:
     # if password is an empty string, ask for the password
     while password == '':
